@@ -16,8 +16,6 @@ public class DownloaderTaskFragment extends Fragment {
 
 	private DownloadFinishedListener mCallback;
 	private Context mContext;
-	private DownLoaderTask mDownloaderTask;
-	final Bundle mRetArgs;
 	
 	@SuppressWarnings ("unused")
 	private static final String TAG = "Lab-Threads";
@@ -30,25 +28,15 @@ public class DownloaderTaskFragment extends Fragment {
 		setRetainInstance(true);
 		
 		// TODO: Create new DownloaderTask that "downloads" data
-		mDownloaderTask = new DownLoaderTask();
-
-        
-		
+		DownloaderTask DownTask = new DownloaderTask();
+        		
 		// TODO: Retrieve arguments from DownloaderTaskFragment
 		// Prepare them for use with DownloaderTask. 
-		//mRetArgs = mDownloaderTask.getArguments();
-		private DownloaderTaskFragment mDownloaderFragment;
-
-		mDownloaderFragment = new DownloaderTaskFragment();
-		Bundle args = new Bundle();
-		mRetArgs = mDownloaderTask.getArguments();
-        
-        
+		Integer[] friendsTagIds = getArguments().getIntegerArrayList(MainActivity.TAG_FRIEND_RES_IDS).toArray(new Integer[0]);
         
 		// TODO: Start the DownloaderTask 
-		
+		DownTask.execute(friendsTagIds);
         
-
 	}
 
 	// Assign current hosting Activity to mCallback
@@ -81,10 +69,9 @@ public class DownloaderTaskFragment extends Fragment {
 	// out). Ultimately, it must also pass newly available data back to 
 	// the hosting Activity using the DownloadFinishedListener interface.
 
-	public class DownLoaderTask extends AsyncTask<Integer,Void,String> {
-        // TODO: Uncomment this helper method
+	public class DownloaderTask extends AsyncTask<Integer,Integer,String[]> {
+	
 		// Simulates downloading Twitter data from the network
-
          private String[] downloadTweets(Integer resourceIDS[]) {
 			final int simulatedDelay = 2000;
 			String[] feeds = new String[resourceIDS.length];
@@ -123,11 +110,14 @@ public class DownloaderTaskFragment extends Fragment {
 			return feeds;
 		}
 
+		@Override
+		protected String[] doInBackground(Integer... parameters) {
+			return downloadTweets(parameters);
+		}
+		
+		@Override
+		protected void onPostExecute(String[] result) {
+			mCallback.notifyDataRefreshed(result);
+		}
 	}
-    
-    
-    
-    
-    
-
 }
