@@ -85,7 +85,7 @@ public class MainActivity extends Activity implements SelectionListener,
 
 			// TODO: Show a Toast message displaying
 			// R.string.download_in_progress string
-
+			Toast.makeText(getApplicationContext(), getString(R.string.download_in_progress_string), Toast.LENGTH_LONG).show();
 
 			
 			
