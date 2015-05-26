@@ -99,6 +99,8 @@ public class MainActivity extends Activity implements SelectionListener,
 					// Check to make sure this is an ordered broadcast
 					// Let sender know that the Intent was received
 					// by setting result code to MainActivity.IS_ALIVE
+					// OBS it works either with MainActivity.IS_ALIVE or IS_ALIVE, or isOrderedBroadcast or mRefreshReceiver.isOrderedBroadcast
+					//if (mRefreshReceiver.isOrderedBroadcast()) { setResultCode(MainActivity.IS_ALIVE);}
 					if (mRefreshReceiver.isOrderedBroadcast()) { setResultCode(IS_ALIVE);}
 				}
 			};
