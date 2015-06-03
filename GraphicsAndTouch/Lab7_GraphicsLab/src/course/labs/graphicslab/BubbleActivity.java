@@ -289,12 +289,6 @@ public class BubbleActivity extends Activity {
 				mDx = r.nextInt((3 - (-3)) + 1) + (-3);
 				mDy = r.nextInt((3 - (-3)) + 1) + (-3);
 
-			
-			
-			
-			
-			
-
 			}
 		}
 
@@ -328,18 +322,16 @@ public class BubbleActivity extends Activity {
 				@Override
 				public void run() {
 
-					// TODO - implement movement logic.
+					// DONE - implement movement logic.
 					// Each time this method is run the BubbleView should
 					// move one step. If the BubbleView exits the display, 
 					// stop the BubbleView's Worker Thread. 
 					// Otherwise, request that the BubbleView be redrawn. 
-					move
-					
-					
-					
-					
-					
-
+					if (moveWhileOnScreen()) {
+						postInvalidate();
+					} else {
+						stop(false);
+					}
 				}
 			}, 0, REFRESH_RATE, TimeUnit.MILLISECONDS);
 		}
@@ -347,15 +339,10 @@ public class BubbleActivity extends Activity {
 		// Returns true if the BubbleView intersects position (x,y)
 		private synchronized boolean intersects(float x, float y) {
 
-			// TODO - Return true if the BubbleView intersects position (x,y)
-			this
-			
-
-
-			
-			
-			
-		    return false;
+			// DONE - Return true if the BubbleView intersects position (x,y)
+			return ((x > mXPos-mRadius && x < mXPos+mRadius) && (y > mYPos-mRadius && y < mYPos+mRadius));
+			//return  mXPos <= x && x <= mXPos + mScaledBitmapWidth &&
+			//mYPos <= y && y <= mYPos + mScaledBitmapWidth;
 		}
 
 		// Cancel the Bubble's movement
@@ -419,31 +406,22 @@ public class BubbleActivity extends Activity {
 		// operation
 		private synchronized boolean moveWhileOnScreen() {
 
-			// TODO - Move the BubbleView
-			//move;
-			float x = (float) r.nextInt(mDisplayWidth);
-			float y = (float) r.nextInt(mDisplayHeight);
-			mCurrent = new Coords(x, y);
-
-			float dy = (float) r.nextInt(mDisplayHeight) / mDisplayHeight;
-			dy *= r.nextInt(2) == 1 ? STEP : -1 * STEP;
-			float dx = (float) r.nextInt(mDisplayWidth) / mDisplayWidth;
-			dx *= r.nextInt(2) == 1 ? STEP : -1 * STEP;
-			mDxDy = new Coords(dx, dy);
-			Coords tmp = mCurrent.getCoords();
-			if (isOutOfView()) { return false;}
-			return true;
+			 mXPos += mDx;
+			 mYPos += mDy;
+			
+			 if (isOutOfView()) { return false;}
+			 return true;
 		}
 
 		// Return true if the BubbleView is off the screen after the move
 		// operation
 		private boolean isOutOfView() {
 
-			// TODO - Return true if the BubbleView is off the screen after
+			// DONE - Return true if the BubbleView is off the screen after
 			// the move operation
-
-
-			return false;
+			if (mXPos > mDisplayWidth || mYPos > mDisplayHeight
+					|| (mXPos+mScaledBitmapWidth) >0 || (mYPos+mScaledBitmapWidth) >0)
+				{return false;} else {return true;}
 		}
 	}
 
